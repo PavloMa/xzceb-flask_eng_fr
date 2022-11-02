@@ -17,10 +17,10 @@ apikey = os.environ['apikey']
 url = os.environ['url']
 VERSION = "2018-05-01"
 
-authenticator = IAMAuthenticator(apikey)
+key_authenticator = IAMAuthenticator(apikey)
 language_translator = LanguageTranslatorV3(
-    version= VERSION,
-    authenticator=authenticator
+    version=VERSION,
+    authenticator=key_authenticator
 )
 
 language_translator.set_service_url(url)
@@ -36,6 +36,7 @@ def english_to_french(english_text=None):
         translation = language_translator.translate(
         text=english_text,
         model_id='en-fr').get_result()
+        #dictonary/array/dictionary: result['translations'][0]['translation']
         french_text = translation["translations"][0]["translation"]
         return french_text
     except ApiException as ex:
